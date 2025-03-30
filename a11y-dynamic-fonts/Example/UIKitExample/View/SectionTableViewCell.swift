@@ -82,7 +82,7 @@ class SectionTableViewCell: UITableViewCell {
 	}
 
 	func setTitle(_ title: String) {
-		titleLabel.attributedText = NSAttributedString.customAttributedString(title, style: .headlineBold, isDynamic: false)
+		titleLabel.attributedText = NSAttributedString.customAttributedString("Токен: \(title)", style: .headlineBold, isDynamic: false)
 	}
 
 	func setExampleText(_ text: String, style: CustomFontStyle, isDynamic: Bool? = nil) {

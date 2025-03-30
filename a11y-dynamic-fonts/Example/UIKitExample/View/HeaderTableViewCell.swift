@@ -28,7 +28,7 @@ class HeaderTableViewCell: UITableViewCell {
 	}
 
 	func set(title: String) {
-		titleLabel.text = title
+		titleLabel.text = "Раздел: \(title)"
 	}
 
 	private func setupViews() {
