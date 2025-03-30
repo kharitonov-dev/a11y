@@ -39,9 +39,6 @@ class SectionTableViewCell: UITableViewCell {
 
 	private let switcher = UISwitch()
 
-	private var textExample: String?
-	private var fontStyleExample: CustomFontStyle?
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupViews()
@@ -86,8 +83,6 @@ class SectionTableViewCell: UITableViewCell {
 	}
 
 	func setExampleText(_ text: String, style: CustomFontStyle, isDynamic: Bool? = nil) {
-        textExample = text
-        fontStyleExample = style
 		exampleLabel.attributedText = NSAttributedString.customAttributedString(text, style: style, isDynamic: isDynamic)
         switcher.isOn = isDynamic ?? false
 	}
@@ -99,13 +94,6 @@ class SectionTableViewCell: UITableViewCell {
     // MARK: - Private func
     
     @objc private func switchStateDidChange(_ sender: UISwitch) {
-        guard let textExample, let fontStyleExample else { return }
-        
-        if sender.isOn {
-            setExampleText(textExample, style: fontStyleExample, isDynamic: true)
-        } else {
-            setExampleText(textExample, style: fontStyleExample)
-        }
         delegate?.didSwitch(isOn: sender.isOn, cell: self)
     }
 }
