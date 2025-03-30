@@ -112,11 +112,12 @@ extension UIKitViewController: UITableViewDataSource, UITableViewDelegate {
 		}
 
 		let model = sections[indexPath.section].models[indexPath.row]
+        let isDynamicFontExampleText = model.isDynamicFontExampleText == true ? true : nil
 		let seporatorIsHidden = (indexPath.section == sections.count - 1) || (indexPath.row == sections[indexPath.section].models.count - 1)
         
 		cell.delegate = self
 		cell.setTitle(model.title)
-        cell.setExampleText(model.example, style: model.style, isDynamic: model.isDynamicFontExampleText)
+        cell.setExampleText(model.example, style: model.style, isDynamic: isDynamicFontExampleText)
 		cell.seporator(isHidden: seporatorIsHidden)
         
 		return cell
@@ -142,7 +143,7 @@ extension UIKitViewController: SectionTableViewCellDelegate {
 		guard let cell = cell as? SectionTableViewCell,
 			  let indexPath = tableView.indexPath(for: cell) else { return }
         
-        sections[indexPath.section].models[indexPath.row].isDynamicFontExampleText = isOn
+        sections[indexPath.section].models[indexPath.row].isDynamicFontExampleText = isOn ? true : nil
 		tableView.reloadRows(at: [indexPath], with: .automatic)
 	}
 }
