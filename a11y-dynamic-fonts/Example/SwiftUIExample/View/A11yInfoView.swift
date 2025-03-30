@@ -13,12 +13,14 @@ struct A11yInfoView: View {
 
 	var body: some View {
 		VStack(alignment: .center) {
-			Text("Размер категории шрифта: \(fontSizeCategory)")
-				.font(.customFont(style: .bodyRegular, isDynamic: false))
-				.padding(.horizontal, 20)
+            HStack {
+                Text("Размер категории шрифта:")
+                    .font(.customFont(style: .bodyRegular, isDynamic: false))
+                Text(".\(fontSizeCategory)")
+                    .font(.customFont(style: .bodyMedium, isDynamic: false))
+            }
 			Text("Примеры динамической верстки")
 				.font(.customFont(style: .bodyRegular, isDynamic: false))
-				.padding(.horizontal, 20)
 		}
 	}
 }
