@@ -7,13 +7,14 @@
 
 import UIKit
 
+struct SectionModel {
+    let sectionHeader: String?
+    var models: [FontExampleModel]
+}
+
 struct FontExampleModel {
 	let title: String
 	let style: CustomFontStyle
 	let example: String = "Hi! I hope this material will be useful."
-}
-
-struct SectionModel {
-	let sectionHeader: String?
-	let models: [FontExampleModel]
+    var isDynamicFontExampleText: Bool?
 }

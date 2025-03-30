@@ -13,7 +13,8 @@ protocol ExamplePresenterProtocol {
 	var activeA11yLocalFlag: [Int: Bool] { get }
 
 	func a11yGlobalFlag(set: Bool)
-	func a11yLocalFlag(for indexCell: Int, isActive: Bool)
+    func setA11yLocalFlag(section: Int, row: Int, isActive: Bool)
+    func isA11yLocalFlagEnabled(section: Int, row: Int) -> Bool?
 }
 
 class ExamplePresenter: ExamplePresenterProtocol {
@@ -113,7 +114,12 @@ class ExamplePresenter: ExamplePresenterProtocol {
 		UIFont.isDynamicFontEnabled = set
 	}
 
-	func a11yLocalFlag(for indexCell: Int, isActive: Bool) {
-		activeA11yLocalFlag[indexCell] = isActive
+    func setA11yLocalFlag(section: Int, row: Int, isActive: Bool) {
+//        activeA11yLocalFlag[indexCell] = isActive
+        sectionsForExample[section].models[row].isDynamicFontExampleText = isActive
+    }
+
+	func isA11yLocalFlagEnabled(section: Int, row: Int) -> Bool? {
+		return sectionsForExample[section].models[row].isDynamicFontExampleText
 	}
 }

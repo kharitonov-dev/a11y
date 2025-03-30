@@ -42,7 +42,7 @@ class SectionTableViewCell: UITableViewCell {
 	private var textExample: String?
 	private var fontStyleExample: CustomFontStyle?
 
-	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupViews()
 	}
@@ -81,27 +81,31 @@ class SectionTableViewCell: UITableViewCell {
 		switcher.addTarget(self, action: #selector(self.switchStateDidChange(_:)), for: .valueChanged)
 	}
 
-	@objc private func switchStateDidChange(_ sender: UISwitch) {
-		guard let textExample, let fontStyleExample else { return }
-		setExampleText(textExample, style: fontStyleExample, isDynamic: sender.isOn)
-		delegate?.didSwitch(isOn: sender.isOn, cell: self)
-	}
-
-	func a11yLocalFlag(set: Bool) {
-		switcher.isOn = set
-	}
-
 	func setTitle(_ title: String) {
 		titleLabel.attributedText = NSAttributedString.customAttributedString(title, style: .headlineBold, isDynamic: false)
 	}
 
 	func setExampleText(_ text: String, style: CustomFontStyle, isDynamic: Bool? = nil) {
+        textExample = text
+        fontStyleExample = style
 		exampleLabel.attributedText = NSAttributedString.customAttributedString(text, style: style, isDynamic: isDynamic)
-		textExample = text
-		fontStyleExample = style
+        switcher.isOn = isDynamic ?? false
 	}
 
 	func seporator(isHidden: Bool) {
 		separatorView.isHidden = isHidden
 	}
+    
+    // MARK: - Private func
+    
+    @objc private func switchStateDidChange(_ sender: UISwitch) {
+        guard let textExample, let fontStyleExample else { return }
+        
+        if sender.isOn {
+            setExampleText(textExample, style: fontStyleExample, isDynamic: true)
+        } else {
+            setExampleText(textExample, style: fontStyleExample)
+        }
+        delegate?.didSwitch(isOn: sender.isOn, cell: self)
+    }
 }

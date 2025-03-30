@@ -166,10 +166,18 @@ enum CustomFontStyle {
 						isDynamic: Bool? = nil) -> [NSAttributedString.Key: Any] {
 		let params = parameters()
 		let isDynamicFont = isDynamic ?? UIFont.isDynamicFontEnabled
+        let font = UIFont.customFont(style: self, isDynamic: isDynamic)
+        let baseLineHeightMultiple: CGFloat = 1.2
+        
+        let lineHeight = FontMetricsCalculator.dynamicLineHeight(
+            for: font,
+            style: self.systemTextStyle,
+            baseLineHeightMultiple: 1.2
+        )
 
 		let paragraphStyle = NSMutableParagraphStyle()
-		paragraphStyle.minimumLineHeight = params.lineHeight
-		paragraphStyle.maximumLineHeight = isDynamicFont ? params.maxLineHeight : params.lineHeight
+		paragraphStyle.minimumLineHeight = lineHeight
+		paragraphStyle.maximumLineHeight = lineHeight
 
 		paragraphStyle.paragraphSpacing = params.paragraphSpacing
 
@@ -188,6 +196,43 @@ enum CustomFontStyle {
 
 		return attrs
 	}
+}
+
+struct FontMetricsCalculator {
+    private static var cache = [String: CGFloat]()
+    
+    static func dynamicLineHeight(for font: UIFont,
+                                style: UIFont.TextStyle,
+                                baseLineHeightMultiple: CGFloat = 1.2) -> CGFloat {
+        let cacheKey = "\(font.fontName)-\(font.pointSize)-\(style.rawValue)"
+        
+        if let cached = cache[cacheKey] {
+            return cached
+        }
+        
+        // Рассчитываем коэффициент коррекции на основе размера
+        let baseSize = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style).pointSize
+        let sizeRatio = font.pointSize / baseSize
+        
+        // Нелинейная функция коррекции
+        let adjustment: CGFloat
+        if sizeRatio < 1.0 {
+            adjustment = 0.0
+        } else {
+            adjustment = 0.15 * log2(sizeRatio)
+        }
+        
+        // Учитываем собственный межстрочный интервал шрифта
+        let fontInherentSpacing = font.ascender - font.descender - font.pointSize
+        let fontSpacingFactor = fontInherentSpacing / font.pointSize
+        
+        // Финальный расчет
+        let effectiveMultiple = baseLineHeightMultiple - adjustment + fontSpacingFactor
+        let lineHeight = font.pointSize * effectiveMultiple
+        
+        cache[cacheKey] = lineHeight
+        return lineHeight
+    }
 }
 
 extension CustomFontStyle {

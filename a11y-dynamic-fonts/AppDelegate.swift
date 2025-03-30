@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-		UIFont.registerFonts(isDynamic: true)
+		UIFont.registerFonts(isDynamic: false)
 
 		let appearance = UINavigationBarAppearance()
 		appearance.configureWithDefaultBackground()

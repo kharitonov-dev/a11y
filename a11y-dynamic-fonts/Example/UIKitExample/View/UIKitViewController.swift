@@ -35,11 +35,7 @@ class UIKitViewController: BaseViewController {
 		tableView.separatorStyle = .none
 		tableView.rowHeight = UITableView.automaticDimension
 		tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 65, right: 0)
-
-		if #available(iOS 15.0, *) {
-			tableView.sectionHeaderTopPadding = 0
-		}
-
+        tableView.sectionHeaderTopPadding = 0
 		return tableView
 	}()
 
@@ -117,11 +113,12 @@ extension UIKitViewController: UITableViewDataSource, UITableViewDelegate {
 
 		let model = sections[indexPath.section].models[indexPath.row]
 		let seporatorIsHidden = (indexPath.section == sections.count - 1) || (indexPath.row == sections[indexPath.section].models.count - 1)
-//		cell.delegate = self
+        
+		cell.delegate = self
 		cell.setTitle(model.title)
-		cell.setExampleText(model.example, style: model.style)
+        cell.setExampleText(model.example, style: model.style, isDynamic: model.isDynamicFontExampleText)
 		cell.seporator(isHidden: seporatorIsHidden)
-		cell.a11yLocalFlag(set: false)
+        
 		return cell
 	}
 
@@ -140,17 +137,15 @@ extension UIKitViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 }
 
-// TODO: - Доработать локальный флаг
-
-//extension UIKitViewController: SectionTableViewCellDelegate {
-//	func didSwitch(isOn: Bool, cell: UITableViewCell) {
-//		guard let cell = cell as? SectionTableViewCell,
-//			  let index = tableView.indexPath(for: cell) else { return }
-//
-//		presenter.a11yLocalFlag(for: index.item, isActive: isOn)
-//		tableView.reloadRows(at: [index], with: .automatic)
-//	}
-//}
+extension UIKitViewController: SectionTableViewCellDelegate {
+	func didSwitch(isOn: Bool, cell: UITableViewCell) {
+		guard let cell = cell as? SectionTableViewCell,
+			  let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        sections[indexPath.section].models[indexPath.row].isDynamicFontExampleText = isOn
+		tableView.reloadRows(at: [indexPath], with: .automatic)
+	}
+}
 
 #if DEBUG
 #Preview {
