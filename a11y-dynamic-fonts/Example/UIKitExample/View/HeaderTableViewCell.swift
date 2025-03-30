@@ -13,7 +13,7 @@ class HeaderTableViewCell: UITableViewCell {
 	private let titleLabel: UILabel = {
 		let label = UILabel()
 		label.textColor = .white
-		label.font = .customFont(style: .titleBlack, isDynamic: false)
+        label.font = .customFont(style: .headlineBold, isDynamic: false)
 
 		return label
 	}()
@@ -28,7 +28,7 @@ class HeaderTableViewCell: UITableViewCell {
 	}
 
 	func set(title: String) {
-		titleLabel.text = "Раздел: \(title)"
+		titleLabel.text = "Раздел - \(title)"
 	}
 
 	private func setupViews() {
