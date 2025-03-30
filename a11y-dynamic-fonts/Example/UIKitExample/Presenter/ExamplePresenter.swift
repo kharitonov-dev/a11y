@@ -10,11 +10,8 @@ import UIKit
 protocol ExamplePresenterProtocol {
 	var sectionsForExample: [SectionModel] { get }
 	var isActiveA11yGlobalFlag: Bool { get }
-	var activeA11yLocalFlag: [Int: Bool] { get }
 
 	func a11yGlobalFlag(set: Bool)
-    func setA11yLocalFlag(section: Int, row: Int, isActive: Bool)
-    func isA11yLocalFlagEnabled(section: Int, row: Int) -> Bool?
 }
 
 class ExamplePresenter: ExamplePresenterProtocol {
@@ -108,18 +105,8 @@ class ExamplePresenter: ExamplePresenterProtocol {
 		)
 	]
 	var isActiveA11yGlobalFlag: Bool = UIFont.isDynamicFontEnabled
-	var activeA11yLocalFlag: [Int: Bool] = [:]
 
 	func a11yGlobalFlag(set: Bool) {
 		UIFont.isDynamicFontEnabled = set
-	}
-
-    func setA11yLocalFlag(section: Int, row: Int, isActive: Bool) {
-//        activeA11yLocalFlag[indexCell] = isActive
-        sectionsForExample[section].models[row].isDynamicFontExampleText = isActive
-    }
-
-	func isA11yLocalFlagEnabled(section: Int, row: Int) -> Bool? {
-		return sectionsForExample[section].models[row].isDynamicFontExampleText
 	}
 }
