@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct A11yInfoView: View {
+    
+    // MARK: - Private properties
 
 	@Environment(\.fontSizeCategory) private var fontSizeCategory
+    
+    // MARK: - Body
 
 	var body: some View {
 		VStack(alignment: .center) {
@@ -25,6 +29,10 @@ struct A11yInfoView: View {
 	}
 }
 
+// MARK: - Preview
+
+#if DEBUG
 #Preview {
 	A11yInfoView()
 }
+#endif

@@ -16,15 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		UIFont.registerFonts(isDynamic: true)
 
-		let appearance = UINavigationBarAppearance()
-		appearance.configureWithDefaultBackground()
-		appearance.titleTextAttributes = [
-			.foregroundColor: UIColor.white,
-			.font: UIFont.customFont(style: .bodyRegular, isDynamic: false)
-		]
-		appearance.backButtonAppearance.normal.titleTextAttributes = [.font: UIFont.systemFont(ofSize: .zero)]
-		UINavigationBar.appearance().standardAppearance = appearance
-		UINavigationBar.appearance().tintColor = .white
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.systemPink
+        appearance.shadowImage = UIImage()
+        appearance.shadowColor = UIColor.clear
+        appearance.backgroundImage = UIImage()
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont.customFont(style: .bodyRegular, isDynamic: false)
+        ]
+        appearance.backButtonAppearance.normal.titleTextAttributes = [
+            .font: UIFont.systemFont(ofSize: .zero)
+        ]
+        UINavigationBar.appearance().tintColor = .white
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
 
 		let rootViewController = MainScreenViewController()
 		let navigationController = UINavigationController(rootViewController: rootViewController)
