@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct ProfileView: View {
+    
+    // MARK: - Private properties
 
 	@Environment(\.fontSizeCategory) private var fontSizeCategory
+    
+    // MARK: - Body
 
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -34,6 +38,10 @@ struct ProfileView: View {
 	}
 }
 
+// MARK: - Preview
+
+#if DEBUG
 #Preview {
 	ProfileView()
 }
+#endif

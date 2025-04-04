@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ExampleSUIView: View {
     
+    // MARK: - Private properties
+    
     @Environment(\.fontSizeCategory) private var fontSizeCategory
     @ObservedObject private var viewModel: ExampleSUIViewModel
     
@@ -17,9 +19,13 @@ struct ExampleSUIView: View {
         return [GridItem(.adaptive(minimum: minWidth))]
     }
     
+    // MARK: - Construction
+    
     init(viewModel: ExampleSUIViewModel) {
         self.viewModel = viewModel
     }
+    
+    // MARK: - Body
     
     var body: some View {
         ScrollView {
@@ -54,6 +60,8 @@ struct ExampleSUIView: View {
         }
     }
 }
+
+// MARK: - Preview
 
 #if DEBUG
 #Preview {

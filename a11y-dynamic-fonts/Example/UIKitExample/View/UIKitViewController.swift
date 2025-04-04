@@ -14,6 +14,8 @@ class UIKitViewController: BaseViewController {
 
 	private let presenter: ExamplePresenterProtocol = ExamplePresenter()
 	private let switchStackView: UIStackView = UIStackView()
+    private let switcher = UISwitch()
+    
 	private let switchTitle: UILabel = {
 		let label = UILabel()
 		label.text = "A11Y GLOBAL FLAG"
@@ -21,13 +23,14 @@ class UIKitViewController: BaseViewController {
 		label.font = .customFont(style: .headlineRegular, isDynamic: false)
 		return label
 	}()
+    
 	private let switchDescription: UILabel = {
 		let label = UILabel()
 		label.textColor = .white
 		label.font = .customFont(style: .bodyLight, isDynamic: false)
 		return label
 	}()
-	private let switcher = UISwitch()
+    
 	private let tableView: UITableView = {
 		let tableView = UITableView()
 		tableView.backgroundColor = .clear
@@ -48,21 +51,35 @@ class UIKitViewController: BaseViewController {
 		setupViews()
 		registerTraitDidChange()
 	}
-
-	private func registerTraitDidChange() {
-		if #available(iOS 18.0, *) {
-			registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (self: Self, previousTraitCollection: UITraitCollection) in
-				self.switchDescription.text = "Размер категории шрифта: \(self.fontSizeCategory)"
-			}
-		}
-	}
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #unavailable(iOS 18.0) {
+            resizeContentSizeCategory(previousTraitCollection: previousTraitCollection)
+        }
+    }
 
 	// MARK: - Private functions
+    
+    private func registerTraitDidChange() {
+        if #available(iOS 18.0, *) {
+            registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (self: Self, previousTraitCollection: UITraitCollection) in
+                self.resizeContentSizeCategory(previousTraitCollection: previousTraitCollection)
+            }
+        }
+    }
+    
+    private func resizeContentSizeCategory(previousTraitCollection: UITraitCollection?) {
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            switchDescription.text = "Размер категории шрифта: \(fontSizeCategory)"
+        }
+    }
 
 	private func setupViews() {
 		title = "UIKit Screen"
 
-		switchDescription.text = "Размер категории шрифта: \(fontSizeCategory)"
+        switchDescription.text = "Размер категории шрифта: \(self.fontSizeCategory)"
 		switchStackView.addArrangedSubviews([switchTitle, switcher])
 		switcher.isOn = presenter.isActiveA11yGlobalFlag
 
@@ -96,6 +113,8 @@ class UIKitViewController: BaseViewController {
 		tableView.reloadData()
 	}
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension UIKitViewController: UITableViewDataSource, UITableViewDelegate {
 	func numberOfSections(in tableView: UITableView) -> Int {
@@ -138,6 +157,8 @@ extension UIKitViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 }
 
+// MARK: - SectionTableViewCellDelegate
+
 extension UIKitViewController: SectionTableViewCellDelegate {
 	func didSwitch(isOn: Bool, cell: UITableViewCell) {
 		guard let cell = cell as? SectionTableViewCell,
@@ -147,6 +168,8 @@ extension UIKitViewController: SectionTableViewCellDelegate {
 		tableView.reloadRows(at: [indexPath], with: .automatic)
 	}
 }
+
+// MARK: - Preview
 
 #if DEBUG
 #Preview {

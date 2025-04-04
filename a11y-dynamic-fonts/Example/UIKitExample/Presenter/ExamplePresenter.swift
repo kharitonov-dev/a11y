@@ -15,6 +15,8 @@ protocol ExamplePresenterProtocol {
 }
 
 class ExamplePresenter: ExamplePresenterProtocol {
+    
+    // MARK: - Properties
 
 	var sectionsForExample: [SectionModel] = [
 		SectionModel(
@@ -105,6 +107,8 @@ class ExamplePresenter: ExamplePresenterProtocol {
 		)
 	]
 	var isActiveA11yGlobalFlag: Bool = UIFont.isDynamicFontEnabled
+    
+    // MARK: - Functions
 
 	func a11yGlobalFlag(set: Bool) {
 		UIFont.isDynamicFontEnabled = set
