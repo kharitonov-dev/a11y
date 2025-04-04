@@ -48,6 +48,14 @@ class UIKitViewController: BaseViewController {
 		setupViews()
 		registerTraitDidChange()
 	}
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #unavailable(iOS 18.0) {
+            self.switchDescription.text = "Размер категории шрифта: \(self.fontSizeCategory)"
+        }
+    }
 
 	private func registerTraitDidChange() {
 		if #available(iOS 18.0, *) {
@@ -62,7 +70,7 @@ class UIKitViewController: BaseViewController {
 	private func setupViews() {
 		title = "UIKit Screen"
 
-		switchDescription.text = "Размер категории шрифта: \(fontSizeCategory)"
+        switchDescription.text = "Размер категории шрифта: \(self.fontSizeCategory)"
 		switchStackView.addArrangedSubviews([switchTitle, switcher])
 		switcher.isOn = presenter.isActiveA11yGlobalFlag
 
