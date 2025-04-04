@@ -8,12 +8,18 @@
 import SwiftUI
 
 class ExampleSUIViewModel: ObservableObject {
+    
+    // MARK: - Properties
 
     @Published var products: [ProductModel] = []
+    
+    // MARK: - Construction
     
     init() {
         loadProducts()
     }
+    
+    // MARK: - Functions
     
     func loadProducts() {
         products = ProductModel.mock

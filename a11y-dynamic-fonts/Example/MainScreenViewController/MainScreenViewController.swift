@@ -9,12 +9,15 @@ import UIKit
 import SwiftUI
 import SnapKit
 
-enum ScreensType {
-   case uiKit
-   case swiftUI
-}
-
 class MainScreenViewController: BaseViewController {
+    
+    // MARK: - Nested type
+    
+    private enum ScreensType {
+       case uiKit, swiftUI
+    }
+    
+    // MARK: - Private properties
 
 	private let titleLabel: UILabel = {
 		let label = UILabel()
@@ -71,6 +74,8 @@ class MainScreenViewController: BaseViewController {
 		stackView.spacing = 10
 		return stackView
 	}()
+    
+    // MARK: - Lifecycle
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -84,6 +89,8 @@ class MainScreenViewController: BaseViewController {
 			resizeContentSizeCategory(previousTraitCollection: previousTraitCollection)
 		}
 	}
+    
+    // MARK: - Private functions
 
 	private func registerTraitDidChange() {
 		if #available(iOS 18.0, *) {

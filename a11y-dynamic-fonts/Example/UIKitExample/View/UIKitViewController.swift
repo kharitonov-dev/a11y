@@ -56,7 +56,7 @@ class UIKitViewController: BaseViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         
         if #unavailable(iOS 18.0) {
-            self.switchDescription.text = "Размер категории шрифта: \(self.fontSizeCategory)"
+            resizeContentSizeCategory(previousTraitCollection: previousTraitCollection)
         }
     }
 
@@ -65,8 +65,14 @@ class UIKitViewController: BaseViewController {
     private func registerTraitDidChange() {
         if #available(iOS 18.0, *) {
             registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (self: Self, previousTraitCollection: UITraitCollection) in
-                self.switchDescription.text = "Размер категории шрифта: \(self.fontSizeCategory)"
+                self.resizeContentSizeCategory(previousTraitCollection: previousTraitCollection)
             }
+        }
+    }
+    
+    private func resizeContentSizeCategory(previousTraitCollection: UITraitCollection?) {
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            switchDescription.text = "Размер категории шрифта: \(fontSizeCategory)"
         }
     }
 

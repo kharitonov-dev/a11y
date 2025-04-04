@@ -13,8 +13,12 @@ protocol SectionTableViewCellDelegate: AnyObject {
 }
 
 class SectionTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
 
 	weak var delegate: SectionTableViewCellDelegate?
+    
+    // MARK: - Private properties
 
 	private let titleLabel: UILabel = {
 		let label = UILabel()
@@ -38,15 +42,20 @@ class SectionTableViewCell: UITableViewCell {
 	}()
 
 	private let switcher = UISwitch()
+    
+    // MARK: - Construction
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
 		setupViews()
 	}
 
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+    
+    // MARK: - Functions
 
 	func setupViews() {
 		selectionStyle = .none
@@ -91,7 +100,7 @@ class SectionTableViewCell: UITableViewCell {
 		separatorView.isHidden = isHidden
 	}
     
-    // MARK: - Private func
+    // MARK: - Private functions
     
     @objc private func switchStateDidChange(_ sender: UISwitch) {
         delegate?.didSwitch(isOn: sender.isOn, cell: self)
